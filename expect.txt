@@ -1,0 +1,5 @@
+                            NAME  GPA   #
+                   Hopper, Grace  2.66  6
+                   Lovelace, Ada  4.00  3
+                Picard, Jean-Luc  2.17  4
+                    Smith, James  1.29  7
