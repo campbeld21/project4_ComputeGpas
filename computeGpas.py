@@ -2,12 +2,19 @@
 import os
 import sys
 
-lines = [] 
-#f = open('input.txt', 'r')
+def main():
+	filepath = "input.txt"
+	f = open(filepath, "r")
+	lines = [] 
+	lines = f.readlines()
+	
+	for line in lines:
+		line.split(' ')
+		print(line)
 
-for line in sys.stdin:
-    #print(line)
-    separatedValues = line.split()
-    lines.append(separatedValues)
+	f.close()
+	#print(lines)
+	return
 
-print(lines)
+if __name__ == "__main__":
+	main()
