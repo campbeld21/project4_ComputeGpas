@@ -1,63 +1,92 @@
-#David Campbell 
+# David Campbell
 import os
 import sys
+import pprint
 
+def calculateGPA(letter, gpa, credit):
+	#calculates intermediate GPA (grade * credit only)
+	if letter == 'A':
+		gpa_temp = 4.0
+	elif letter == 'A-':
+		gpa_temp = (4.0-0.33)
+	elif letter == 'A+':
+		gpa_temp = (4.0+0.33)
+	elif letter == 'B':
+		gpa_temp = 3.0
+	elif letter == 'B-':
+		gpa_temp = (3.0-0.33)
+	elif letter == 'B+':
+		gpa_temp = (3.0+0.33)
+	elif letter == 'C':
+		gpa_temp = 2.0
+	elif letter == 'C-':
+		gpa_temp = (2.0-0.33)
+	elif letter == 'C+':
+		gpa_temp = (2.0+0.33)
+	elif letter == 'D':
+		gpa_temp = 1.0
+	elif letter == 'D-':
+		gpa_temp = (1.0-0.33)
+	elif letter == 'D+':
+		gpa_temp = (1.0+0.33)
+	elif letter == 'F':
+		gpa_temp = 0.0
+	else:
+		return("ignore")
+	return(gpa + (gpa_temp * credit))
 
-#filepath = "input.txt"
-#f = open(filepath, "r")
-lines = [] #array that contains everything 
+def sumCredits(inCredit, sumCredits):
+    	# sum up credits
+	sumCredits += inCredit
+	return(sumCredits)
 
-for line in sys.stdin:
-	separatedValues = line.split(' ')
-	lines.append(separatedValues)
-	#lines.append(separatedValues)
+def main():
+	lines = [] 
+	for line in sys.stdin:
+		separatedValues = line.split(' ')
+		lines.append(separatedValues)
 
-grades = []
-for line in lines:
-    #traverse lines list of lists and use list comprehension to grab each name and calculate grade
-	curr_first = line[4] #first name
-	curr_last = line[5] #last name 
-
-	#save first and last name in format of last, first
-	student = []
-	name = line[5] + ', ' + line[4]
-	student.append(name)
-	
-	# check if student name already exists in list
-	for s in grades:
-    	if student in s:
-    		#add gpa to existing value
-			# gpas that are already in grades are in s[1]
-			if line[6]  == 'A':
-    				s[1] += 4.0
-			elif line[6]  == 'A-':
-    				s[1] += 3.7
-			elif line[6]  == 'B+':
-    				s[1] += 3.3
-			elif line[6]  == 'B':
-					s[1] += 3.0
-			elif line[6]  == 'B-':
-    				s[1] += 2.7
-			elif line[6]  == 'C+':
-    				s[1] += 2.3
-			elif line[6]  == 'C':
-    				s[1] += 2.0
-			elif line[6]  == 'C-':
-    				s[1] += 1.7
-			elif line[6]  == 'D':
-    				s[1] += 1.0
-			elif line[6]  == 'A':
-    				s[1] += 0.7
-			elif line[6]  == 'F':
-    				s[1] += 0.0
-		else:
-    		continue #ignore if grade is wrong
-    	
-		#number of credits 
-		s[2] += s[3] #add number of credits to eventual output string
-
-	# save and calculate gpa 
-	gpa = 0.0
-
-
-#print(lines)
+	gradebook = {} #list of student dictionaries
+	for line in lines:
+		# save first and last name in format of expect.txt
+		fullName = line[5]+', '+line[4]
+		
+		flag = 0
+		# check if student name already exists in list and add
+		for key,value in gradebook.items():
+			if key == fullName:
+				flag = 1 #found name
+				# update GPA
+				grade = line[6].strip('\n')
+				ret = calculateGPA(grade, gradebook[key]["gpa"], int(line[3]))
+				if (ret == "ignore"):
+					continue
+				else:
+					gradebook[key]["gpa"] = ret	
+				# update credits 
+				gradebook[key]["credits"] = sumCredits(int(line[3]), gradebook[key]["credits"])
+		if flag == 0:
+			grade = line[6].strip()
+			#student not in gradebook yet, insert with new values
+			ret_gpa = calculateGPA(grade, 0.0, int(line[3]))
+			if ret_gpa == "ignore":
+                        	continue
+                        # update credits 
+			ret_cred = sumCredits(int(line[3]), 0)
+			student = {
+				fullName: {
+					"name": fullName,
+					"gpa": ret_gpa,
+					"credits": ret_cred
+				}
+			}
+			gradebook.update(student) #insert new student into gradebook
+	#pprint.pprint(gradebook)
+	for key,value in gradebook.items():
+		# traverse dictionary and finish GPA calculation
+		gradebook[key]["gpa"] /= gradebook[key]["credits"]
+		gradebook[key]["gpa"] = round(gradebook[key]["gpa"], 2)
+	pprint.pprint(gradebook)
+			
+if __name__ == '__main__':
+	main()
