@@ -3,6 +3,7 @@ import os
 import sys
 import pprint
 
+print("                NAME GPA #")
 def calculateGPA(letter, gpa, credit):
 	#calculates intermediate GPA (grade * credit only)
 	if letter == 'A':
@@ -32,7 +33,7 @@ def calculateGPA(letter, gpa, credit):
 	elif letter == 'F':
 		gpa_temp = 0.0
 	else:
-		return("ignore")
+		return("ignore") #if no grade in between A-F, ignore this parameter 
 	return(gpa + (gpa_temp * credit))
 
 def sumCredits(inCredit, sumCredits):
@@ -45,8 +46,9 @@ def main():
 	for line in sys.stdin:
 		separatedValues = line.split(' ')
 		lines.append(separatedValues)
-
+	first_line = {1: "Name"}
 	gradebook = {} #list of student dictionaries
+	#gradebook.update(first_line)
 	for line in lines:
 		# save first and last name in format of expect.txt
 		fullName = line[5]+', '+line[4]
@@ -66,7 +68,7 @@ def main():
 				# update credits 
 				gradebook[key]["credits"] = sumCredits(int(line[3]), gradebook[key]["credits"])
 		if flag == 0:
-			grade = line[6].strip()
+			grade = line[6].strip() # strip method helps deal with the new line values in input file
 			#student not in gradebook yet, insert with new values
 			ret_gpa = calculateGPA(grade, 0.0, int(line[3]))
 			if ret_gpa == "ignore":
@@ -75,9 +77,10 @@ def main():
 			ret_cred = sumCredits(int(line[3]), 0)
 			student = {
 				fullName: {
-					"name": fullName,
+					#"name": fullName,
 					"gpa": ret_gpa,
 					"credits": ret_cred
+					
 				}
 			}
 			gradebook.update(student) #insert new student into gradebook
@@ -86,7 +89,14 @@ def main():
 		# traverse dictionary and finish GPA calculation
 		gradebook[key]["gpa"] /= gradebook[key]["credits"]
 		gradebook[key]["gpa"] = round(gradebook[key]["gpa"], 2)
-	pprint.pprint(gradebook)
+	#pprint.pprint(gradebook)
+	#attributesofGradebook = gradebook.keys()
+
+	#replace the brackets with spaces
+	#pprint.pprint(students)
+	
+	pprint.pprint(str(gradebook).replace("{", "").replace("}", "\n"),)
+	#pprint.pprint(gradebook)
 			
 if __name__ == '__main__':
 	main()
