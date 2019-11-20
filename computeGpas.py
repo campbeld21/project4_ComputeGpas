@@ -46,12 +46,16 @@ def main():
 	for line in sys.stdin:
 		separatedValues = line.split(' ')
 		lines.append(separatedValues)
+	#print(lines)
 	first_line = {1: "Name"}
 	gradebook = {} #list of student dictionaries
 	#gradebook.update(first_line)
 	for line in lines:
 		# save first and last name in format of expect.txt
+		print("Line 5: " + line[5] + " , Line 4: " + line[4])
 		fullName = line[5]+', '+line[4]
+		
+		print(fullName)
 		
 		flag = 0
 		# check if student name already exists in list and add
@@ -83,7 +87,9 @@ def main():
 					
 				}
 			}
+			
 			gradebook.update(student) #insert new student into gradebook
+			
 	#pprint.pprint(gradebook)
 	for key,value in gradebook.items():
 		# traverse dictionary and finish GPA calculation
