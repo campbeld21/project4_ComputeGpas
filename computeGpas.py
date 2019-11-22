@@ -3,7 +3,6 @@ import os
 import sys
 import pprint
 
-print("        NAME    GPA   #")
 def calculateGPA(letter, gpa, credit):
 	#calculates intermediate GPA (grade * credit only)
 	if letter == 'A':
@@ -84,7 +83,7 @@ def main():
 					"name": fullName,
 					"gpa": ret_gpa,
 					"credits": ret_cred,
-					"nameLength": name_len
+					"nameLength": 0
 				}
 			}
 			
@@ -101,6 +100,7 @@ def main():
 	#replace the brackets with spaces
 	#pprint.pprint(students)
 	maxLength = 0 
+	print("        NAME      GPA  #")
 	for key in gradebook:
 		temp = len(gradebook[key]["name"])
 		if len(gradebook[key]["name"]) > maxLength:
@@ -112,9 +112,9 @@ def main():
 		
 	
 	for key in gradebook:
-    	difference = maxLength - gradebook[key]["nameLength"]
-    		
-		print(gradebook[key]["name"], difference, gradebook[key]["gpa"], gradebook[key]["credits"])
+		difference = maxLength - gradebook[key]["nameLength"]
+		strang = " "*difference	
+		print(gradebook[key]["name"], strang, gradebook[key]["gpa"], gradebook[key]["credits"])
 	#print(maxLength)
 	#pprint.pprint(str(gradebook).replace("{", "").replace("}", "\n"),)
 	#pprint.pprint(gradebook)
