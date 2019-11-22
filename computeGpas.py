@@ -90,7 +90,6 @@ def main():
 		gradebook[key]["gpa"] = format(gradebook[key]["gpa"], '.2f')
 
 	maxLength = 0 
-	print("        NAME      GPA  #")
 	for key in gradebook:
 		temp = len(gradebook[key]["name"])
 		if len(gradebook[key]["name"]) > maxLength:
