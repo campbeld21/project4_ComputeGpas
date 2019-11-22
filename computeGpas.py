@@ -2,6 +2,8 @@
 import os
 import sys
 import pprint
+from collections import OrderedDict
+from operator import getitem
 
 def calculateGPA(letter, gpa, credit):
 	#calculates intermediate GPA (grade * credit only)
@@ -45,16 +47,10 @@ def main():
 	for line in sys.stdin:
 		separatedValues = line.split(' ')
 		lines.append(separatedValues)
-	#print(lines)
-	#first_line = {1: "Name"}
 	gradebook = {} #list of student dictionaries
-	#gradebook.update(first_line)
 	for line in lines:
 		# save first and last name in format of expect.txt
 		fullName = line[5]+', '+line[4] #check this if there is an extra line at the bottom 
-		
-		#print(fullName)
-		
 		flag = 0
 		# check if student name already exists in list and add
 		for key,value in gradebook.items():
@@ -78,46 +74,42 @@ def main():
                         # update credits 
 			ret_cred = sumCredits(int(line[3]), 0)
 			student = {
-				fullName: 
-				{
+				fullName:{
 					"name": fullName,
 					"gpa": ret_gpa,
 					"credits": ret_cred,
 					"nameLength": 0
 				}
 			}
-			
 			gradebook.update(student) #insert new student into gradebook
 			
 	#pprint.pprint(gradebook)
 	for key,value in gradebook.items():
 		# traverse dictionary and finish GPA calculation
 		gradebook[key]["gpa"] /= gradebook[key]["credits"]
-		gradebook[key]["gpa"] = round(gradebook[key]["gpa"], 2)
-	#pprint.pprint(gradebook)
-	#attributesofGradebook = gradebook.keys()
+		gradebook[key]["gpa"] = format(gradebook[key]["gpa"], '.2f')
 
-	#replace the brackets with spaces
-	#pprint.pprint(students)
 	maxLength = 0 
 	print("        NAME      GPA  #")
 	for key in gradebook:
 		temp = len(gradebook[key]["name"])
 		if len(gradebook[key]["name"]) > maxLength:
 			maxLength = len(gradebook[key]["name"])
-
 		gradebook[key]["nameLength"] = temp
-			#print(gradebook[key]["name"])
-			#print(maxLength)
-		
 	
+	header_length = ' ' * (maxLength - 4)
+	name_header = header_length + 'NAME'
+	print(name_header + ' GPA  #')
 	for key in gradebook:
 		difference = maxLength - gradebook[key]["nameLength"]
-		strang = " "*difference	
-		print(gradebook[key]["name"], strang, gradebook[key]["gpa"], gradebook[key]["credits"])
-	#print(maxLength)
-	#pprint.pprint(str(gradebook).replace("{", "").replace("}", "\n"),)
-	#pprint.pprint(gradebook)
+		diff_str = ' ' * difference
+		namePrint = diff_str + gradebook[key]["name"]
+		gradebook[key]["name"] = namePrint #save the way we want to print it in dictionary
+		#print(namePrint, gradebook[key]["gpa"], gradebook[key]["credits"])
+
+	ordered = OrderedDict(sorted(gradebook.items(), key = lambda x: getitem(x[1], "gpa"), reverse=True))
+	for key in ordered:
+		print(ordered[key]["name"], ordered[key]["gpa"], ordered[key]["credits"])
 			
 if __name__ == '__main__':
 	main()
