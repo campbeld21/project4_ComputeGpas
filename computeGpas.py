@@ -3,7 +3,7 @@ import os
 import sys
 import pprint
 
-print("                NAME GPA #")
+print("        NAME    GPA   #")
 def calculateGPA(letter, gpa, credit):
 	#calculates intermediate GPA (grade * credit only)
 	if letter == 'A':
@@ -47,15 +47,14 @@ def main():
 		separatedValues = line.split(' ')
 		lines.append(separatedValues)
 	#print(lines)
-	first_line = {1: "Name"}
+	#first_line = {1: "Name"}
 	gradebook = {} #list of student dictionaries
 	#gradebook.update(first_line)
 	for line in lines:
 		# save first and last name in format of expect.txt
-		print("Line 5: " + line[5] + " , Line 4: " + line[4])
-		fullName = line[5]+', '+line[4]
+		fullName = line[5]+', '+line[4] #check this if there is an extra line at the bottom 
 		
-		print(fullName)
+		#print(fullName)
 		
 		flag = 0
 		# check if student name already exists in list and add
@@ -80,11 +79,12 @@ def main():
                         # update credits 
 			ret_cred = sumCredits(int(line[3]), 0)
 			student = {
-				fullName: {
-					#"name": fullName,
+				fullName: 
+				{
+					"name": fullName,
 					"gpa": ret_gpa,
-					"credits": ret_cred
-					
+					"credits": ret_cred,
+					"nameLength": name_len
 				}
 			}
 			
@@ -100,8 +100,23 @@ def main():
 
 	#replace the brackets with spaces
 	#pprint.pprint(students)
+	maxLength = 0 
+	for key in gradebook:
+		temp = len(gradebook[key]["name"])
+		if len(gradebook[key]["name"]) > maxLength:
+			maxLength = len(gradebook[key]["name"])
+
+		gradebook[key]["nameLength"] = temp
+			#print(gradebook[key]["name"])
+			#print(maxLength)
+		
 	
-	pprint.pprint(str(gradebook).replace("{", "").replace("}", "\n"),)
+	for key in gradebook:
+    	difference = maxLength - gradebook[key]["nameLength"]
+    		
+		print(gradebook[key]["name"], difference, gradebook[key]["gpa"], gradebook[key]["credits"])
+	#print(maxLength)
+	#pprint.pprint(str(gradebook).replace("{", "").replace("}", "\n"),)
 	#pprint.pprint(gradebook)
 			
 if __name__ == '__main__':

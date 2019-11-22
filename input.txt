@@ -6,5 +6,3 @@ PHL 220 A 3 Ada Lovelace A
 PHL 220 A 3 Grace Hopper C
 THE 105 A 3 Grace Hopper B+
 THE 105 A 3 James Smith D+
-
-
