@@ -34,7 +34,9 @@ def calculateGPA(letter, gpa, credit):
 	elif letter == 'F':
 		gpa_temp = 0.0
 	else:
+		print("Has an incorrect Input")
 		return("ignore") #if no grade in between A-F, ignore this parameter 
+		
 	return(gpa + (gpa_temp * credit))
 
 def sumCredits(inCredit, sumCredits):
@@ -107,8 +109,10 @@ def main():
 		#print(namePrint, gradebook[key]["gpa"], gradebook[key]["credits"])
 
 	ordered = OrderedDict(sorted(gradebook.items(), key = lambda x: getitem(x[1], "gpa"), reverse=True))
+
+
 	for key in ordered:
 		print(ordered[key]["name"], ordered[key]["gpa"], ordered[key]["credits"])
-			
+
 if __name__ == '__main__':
 	main()
