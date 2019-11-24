@@ -1,8 +1,25 @@
+
 CS 273 A 1 James Smith F
 CS 273 A 1 Jean-Luc Picard B-
+
 CS 203 B 3 James Smith C-
 CS 203 B 3 Jean-Luc Picard C
 PHL 220 A 3 Ada Lovelace A
+
 PHL 220 A 3 Grace Hopper C
 THE 105 A 3 Grace Hopper B+
 THE 105 A 3 James Smith D+
+THE 105 A 3 James Smith D+
+
+900 B05 A 3 James Smith D+
+THE 105 A 0 Dabid Lee A+
+CS 900 A 3 Dabid Lee A+
+
+CS 900 A 3 Stephanie-Mae Chakrabarty A+
+CS 900 A 3 Stephanie-Mae Chakrabarty A+ Hello
+A 3 Stephanie-Mae Chakrabarty A+
+
+CS 900 A -9 Stephanie-Mae Chakrabarty A+
+
+CS 60 A 2 Dingle Man X
+
