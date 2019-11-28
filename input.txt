@@ -12,8 +12,8 @@ THE 105 A 3 James Smith D+
 THE 105 A 3 James Smith D+
 
 900 B05 A 3 James Smith D+
-THE 105 A 0 Dabid Lee A+
-CS 900 A 3 Dabid Lee A+
+THE 105 A 0 David Lee A+
+CS 900 A 3 David Lee A+
 
 CS 900 A 3 Stephanie-Mae Chakrabarty A+
 CS 900 A 3 Stephanie-Mae Chakrabarty A+ Hello
