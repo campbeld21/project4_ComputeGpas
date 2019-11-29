@@ -1,5 +1,8 @@
 # David Campbell
 
+# COMPILE COMMAND
+# python3 computeGpas.py < input.txt 
+
 import os
 import re
 import sys
@@ -40,30 +43,33 @@ def calculateGPA(letter, gpa, credit):
 		
 	return(gpa + (gpa_temp * credit))
 
+# Method which sums the number 
+# of credits for each student
 def sumCredits(inCredit, sumCredits):
 	# check if invalid credits
 	if inCredit < 0:
 		return(-1) #error return value
-    	# sum up credits
 	sumCredits += inCredit
 	return(sumCredits)
 
+# Processes course, GPA, and credits to ensure they are valid
+# and will return them if they are
 def processLine(index, line, gradebook, fullName, flag):
 
 	## COURSE PROCESSING
 	#check validity of course name and number
 	if (re.match('^[A-Z]+$', line[0])) == False or (line[1].isdigit() == False):
-		print("Error: Course name invalid at line {}.\n".format(index))
+		print("Error: Course name invalid at line {}.\n".format(index+1))
 		return(-1,-1,-1)
 	# check if course was already added 
 	course = line[0] + line[1] # 'CS273' is course string
 	if flag == 1:
 		# new student,  no course processing necessary, but if 1, need processing
 		if course in gradebook[fullName]["classes"]:
-			print("Error: {} was enrolled in the course {} more than once. Error in line {}.\n".format(fullName, course, index))
+			print("Error: {} was enrolled in the course {} more than once. Error in line {}.\n".format(fullName, course, index+1))
 			return(-1,-1,-1)
 	#otherwise add course to classes list in dictionary
-	# return course
+	
 
 	## GPA PROCESSING
 	grade = line[6].strip('\n')
@@ -72,9 +78,9 @@ def processLine(index, line, gradebook, fullName, flag):
 	elif flag == 0:
 		retGPA = calculateGPA(grade, 0.0, int(line[3]))
 	if (retGPA == "ignore"):
-		print("Error: Invalid grade at line {}.\n".format(index))
+		print("Error: Invalid grade at line {}.\n".format(index+1))
 		return(-1,-1,-1)
-	#return retGPA
+	
 
 	## CREDIT PROCESSING
 	if flag == 1:
@@ -83,12 +89,13 @@ def processLine(index, line, gradebook, fullName, flag):
 		retCredit = sumCredits(int(line[3]), 0)
 	if retCredit == -1:
 		#invalid credit entry in line, print line for error messasge
-		print("Error: Invalid number of credits in line {}\n".format(index))
+		print("Error: Invalid number of credits in line {}\n".format(index+1))
 		return(-1,-1,-1)
 	#otherwise update credit number in gradebook
-	#return retCredit
 	return(course, retGPA, retCredit)
 
+# Processes all courses and makes sure they are valid,
+# if they are add the course and credits to the dictionary
 def processCourses(lines):
 	# print error message if a course is listed with different credits
 	courses = {}
@@ -98,14 +105,13 @@ def processCourses(lines):
 			continue
 		# if wrong number of entries on line skip (must be 7)
 		if len(line) != 7 :
-			#print("Error: Invalid number of items on line {}.\n".format(index))
 			continue
 		flag = 0
 		for key,value in courses.items():
 			if key == (line[0]+line[1]):
 				flag = 1
 				if courses[key] != line[3]:
-					print("Error: Course {} listed with differing number of credits on line {}.\n".format(key, index))
+					print("Error: Course {} listed with differing number of credits on line {}.\n".format(key, index+1))
 		if flag == 0:
 			# add course and credits to dict
 			new = {(line[0]+line[1]): line[3]}
@@ -122,12 +128,12 @@ def main():
 
 	gradebook = {} #list of student dictionaries
 	for index,line in enumerate(lines):
-		## LINE ENTRIES
+		## LINE ENTRIES, accounts for empty first line
 		if line[0] == '\n':
 			continue
 		# if wrong number of entries on line skip (must be 7)
 		if len(line) != 7 :
-			print("Error: Invalid number of items on line {}.\n".format(index))
+			print("Error: Invalid number of items on line {}.\n".format(index+1))
 			continue
 
 		# save first and last name in format of expect.txt
@@ -169,6 +175,11 @@ def main():
 			gradebook[key]["gpa"] /= gradebook[key]["credits"]
 			gradebook[key]["gpa"] = format(gradebook[key]["gpa"], '.2f')
 
+
+
+	# This maxLength value was used with header length 
+	# to format the names so they would 
+	# all be in the same vertical column
 	maxLength = 0 
 	for key in gradebook:
 		temp = len(gradebook[key]["name"])
